@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    env_file: ./flask_app/.env-postgresql
+    volumes:
+      - ./flask_app/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - my-db-postgre:/var/lib/postgresql/data/
+    restart: always
+    ports:
+      - '5432:5432'
+    networks:
+      - net
+
+  flask:
+    container_name: flask
+    env_file: ./flask_app/.env-postgresql
+    build:
+      context: flask_app
+      target: builder
+    stop_signal: SIGINT
+    ports:
+      - '8000:8000'
+    restart: always
+    networks:
+      - net
+    depends_on:
+      - postgres
+
+volumes:
+  my-db-postgre:
+
+networks:
+  net:
+    external: false
+    name: net

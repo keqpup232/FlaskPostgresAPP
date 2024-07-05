@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Hello, let's get acquainted! {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="name">Name</label>
+            <input type="text"
+                   name="name"
+                   class = "name"
+                   placeholder="First name">
+            </input>
+        </p>
+        <p>
+            <label for="email">Email</label>
+            <input type="text"
+                   name="email"
+                   class = "email"
+                   placeholder="email@domain">
+            </input>
+        </p>
+        <input type="hidden" name="db_test">
+        <div class='error_exists' style="display: {{ error_exists }};">
+            <p style=" color: red;">Email is already exists</p>
+        </div>
+        <div class='error_null' style="display: {{ error_null }};">
+            <p style=" color: red;">Name or Email null</p>
+        </div>
+        <p>
+            <button type="submit" class = "submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}
